@@ -3,15 +3,17 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
         // fazer uma conexão HTTP e buscar os top 250 filmes
-        String url = "https://imdb-api.com/en/API/MostPopularMovies/k_2wikxsgk";
-        URI endereco = URI.create(url);
+        String urlMostPopularMovies = "https://imdb-api.com/en/API/MostPopularMovies/k_2wikxsgk";
+        String urlTop250TVs = "https://imdb-api.com/en/API/Top250TVs/k_2wikxsgk";
+        String urlTop250Movies = "https://imdb-api.com/en/API/Top250Movies/k_2wikxsgk";
+
+        URI endereco = URI.create(urlMostPopularMovies);
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(endereco).GET().build();
         HttpResponse<String> response = null;
