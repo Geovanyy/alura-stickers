@@ -1,3 +1,6 @@
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -9,9 +12,7 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) {
         // fazer uma conexão HTTP e buscar os top 250 filmes
-        String urlMostPopularMovies = "https://imdb-api.com/en/API/MostPopularMovies/k_2wikxsgk";
-        String urlTop250TVs = "https://imdb-api.com/en/API/Top250TVs/k_2wikxsgk";
-        String urlTop250Movies = "https://imdb-api.com/en/API/Top250Movies/k_2wikxsgk";
+        String urlMostPopularMovies = "https://mocki.io/v1/9a7c1ca9-29b4-4eb3-8306-1adb9d159060";
 
         URI endereco = URI.create(urlMostPopularMovies);
         HttpClient client = HttpClient.newHttpClient();
@@ -20,17 +21,23 @@ public class Main {
 
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        Gson gson = new Gson();
 
         String body = response.body();
 
         // extrair só os dados que interessam (titulo, poster, classificação)
         var parser = new JsonParser();
         List<Map<String, String>> listaDeFilmes = parser.parse(body);
+
+        System.out.println("listaDeFilmes " + listaDeFilmes);
+
+        JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
+
+        System.out.println("jsonObject " + jsonObject);
 
         // exibir e manipular os dados
         for (Map<String, String> filme : listaDeFilmes) {
